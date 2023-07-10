@@ -123,7 +123,7 @@ uRTCLib rtc(0x68);  // uRTCLib rtc;
 
 #include <HX711.h>
 
-const int LOADCELL_DT_PIN = 25;
+const int LOADCELL_DT_PIN = 27;
 const int LOADCELL_SCK_PIN = 26;
 
 HX711 scale;// Create an instance of the HX711 library
@@ -224,7 +224,7 @@ void setup() {
   
   // Set the calibration factor for your specific load cell
   // You can calibrate it by placing a known weight and adjusting this value
-  scale.set_scale(1000); // Replace 1000 with your calibration factor
+  scale.set_scale(100); // Replace 1000 with your calibration factor
 
   
   scale.tare();// Tare the scale to remove any existing weight
