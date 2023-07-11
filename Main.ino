@@ -215,6 +215,12 @@ int quality() {
   if (temperature() > 30 && humidity() > 60) aux = 35;
   return aux;
 }
+void calculate_closest_meal(){
+  int diff0 = abs((RemoteXY.Hour_A - rtc.hour()) * 60 + (RemoteXY.Minute_A - rtc.minute()));
+  int diff1 = abs((RemoteXY.Hour_B - rtc.hour()) * 60 + (RemoteXY.Minute_B - rtc.minute()));
+  int diff2 = abs((RemoteXY.Hour_C - rtc.hour()) * 60 + (RemoteXY.Minute_C - rtc.minute()));
+  int diff3 = abs((RemoteXY.Hour_D - rtc.hour()) * 60 + (RemoteXY.Minute_D - rtc.minute()));
+}
 
 /*
 void meal_save(){
