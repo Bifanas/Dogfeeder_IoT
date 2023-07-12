@@ -220,6 +220,32 @@ void calculate_closest_meal(){
   int diff1 = abs((RemoteXY.Hour_B - rtc.hour()) * 60 + (RemoteXY.Minute_B - rtc.minute()));
   int diff2 = abs((RemoteXY.Hour_C - rtc.hour()) * 60 + (RemoteXY.Minute_C - rtc.minute()));
   int diff3 = abs((RemoteXY.Hour_D - rtc.hour()) * 60 + (RemoteXY.Minute_D - rtc.minute()));
+  //find smaller diffrence
+  int minDiff = min(min(diff0, diff1), min(diff2, diff3));
+
+  int closestHour, closestMinute;
+  if (minDiff == diff0) {
+    closestHour = RemoteXY.Hour_A;
+    closestMinute = RemoteXY.Minute_A;
+  }
+  else if (minDiff == diff1) {
+    closestHour = RemoteXY.Hour_B;
+    closestMinute = RemoteXY.Minute_B;
+  }
+  else if(minDiff == diff2){
+    closestHour = RemoteXY.Hour_C;
+    closestMinute = RemoteXY.Minute_C;
+  }
+  else{
+    closestHour = RemoteXY.Hour_D;
+    closestMinute = RemoteXY.Minute_D;    
+  }
+  //coppy transform int to string
+    std::string strHour = std::to_string(closestHour);
+    std::string strMinute = std::to_string(closestMinute);
+    std::string result = strHour + ":" + strMinute;
+    std::strcpy(Info, result.c_str());
+
 }
 
 /*
