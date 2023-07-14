@@ -292,9 +292,36 @@ void setup() {
 }
 
 void loop() {
+   unsigned long currentMillis = millis();
    //server input, all that is to be stored(varibles need to be changed,and times need to be agreed opon(5min intervals of sending info or 1min...))
    //String queryString = "?user_id=User1&temperature=" + String(temperature) + "&humidity=" + String(humidity) +"&weight=" + String(weight)+"&lastHumidityChange=" + String(lastHumidityChange)+"&lastTemperatureChange=" + String(lastTemperatureChange);
-  RemoteXY_Handler();
+   
+   //code that sends info above to server every "interval" milliseconds
+   /*if (currentMillis - previousMillis >= interval) {
+    // save the last time the HTTP request was made
+    previousMillis = currentMillis;
+
+    // ... put your HTTP request code here ...
+    HTTPClient http;
+
+    http.begin(HOST_NAME + PATH_NAME + queryString); //HTTP
+    int httpCode = http.GET();
+
+    if(httpCode > 0) {
+      if(httpCode == HTTP_CODE_OK) {
+        String payload = http.getString();
+        Serial.println(payload);
+      } else {
+        Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+      }
+    } else {
+      Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+    }
+
+    http.end();
+  }
+   */
+   RemoteXY_Handler();
 
 
    
