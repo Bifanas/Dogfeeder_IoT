@@ -22,15 +22,20 @@
 // RemoteXY select connection mode and include library
 #define REMOTEXY_MODE__ESP32CORE_WIFI_POINT
 #include <WiFi.h>
-
+#include <HTTPClient.h>
 #include <RemoteXY.h>
 
 // RemoteXY connection settings
 #define REMOTEXY_WIFI_SSID "DogFeederIoT"
 #define REMOTEXY_WIFI_PASSWORD "12345678"
 #define REMOTEXY_SERVER_PORT 6377
+//server configuration stuff(incomplete)
+const char WIFI_SSID[] =0//erodam
+const char WIFI_PASSWORD[] =0//erodam password
 
-
+String HOST_NAME = "http://192.168.1.68"; // change to your PC's IP address
+String PATH_NAME   = "/insert_temp.php";
+//String queryString = "?user_id=User1&temperature=30.5&humidity=50.0&weight=70.0";
 // RemoteXY configurate  
 #pragma pack(push, 1)
 uint8_t RemoteXY_CONF[] =   // 719 bytes
