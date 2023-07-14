@@ -320,6 +320,50 @@ void loop() {
 
     http.end();
   }
+  
+  // Code that retrieves the fungus_growth_prob at a smaller interval
+if (currentMillis - previousGetProbMillis >= getProbInterval) {
+  // Save the last time the fungus_growth_prob was retrieved
+  previousGetProbMillis = currentMillis;
+
+  // HTTP request code
+  HTTPClient http;
+
+  // Update this with your host name and the correct PHP script name
+  http.begin(HOST_NAME + "/insert_temp.php");
+  int httpCode = http.GET();
+
+  if(httpCode > 0) {
+    if(httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      Serial.println(payload);  // print payload once here
+
+      // Create a StaticJsonDocument
+      StaticJsonDocument<200> doc;
+
+      // Parse the JSON object in the payload
+      DeserializationError error = deserializeJson(doc, payload);
+
+      // Test if parsing succeeds.
+      if (error) {
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.c_str());
+        // handle the error in some way
+      } else {
+        // Get the value of fungus_growth_prob.
+        float fungus_growth_prob = doc["fungus_growth_prob"];
+
+        Serial.println(fungus_growth_prob);
+      }
+    } else {
+      Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+    }
+  } else {
+    Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+  }
+
+  http.end();
+}
    */
    RemoteXY_Handler();
 
