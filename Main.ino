@@ -24,7 +24,7 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <RemoteXY.h>
-
+#include <ArduinoJson.h>
 // RemoteXY connection settings
 #define REMOTEXY_WIFI_SSID "DogFeederIoT"
 #define REMOTEXY_WIFI_PASSWORD "12345678"
