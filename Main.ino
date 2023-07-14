@@ -289,9 +289,11 @@ void setup() {
 void loop() {
   RemoteXY_Handler();
 
+
+   
   rtc.refresh();
   sprintf(RemoteXY.Calendar, "%04d-%02d-%02d %02d:%02d:%02d",rtc.year(), rtc.month(), rtc.day(),rtc.hour(), rtc.minute(), rtc.second());
-    
+ //update real time to RemoteXY.hour RemoteXY.minute RemoteXY.second ---- day month year? 
 
   dtostrf(temperature(), 0, 0, RemoteXY.Info_T);
   dtostrf(humidity(), 0, 0, RemoteXY.Info_H);
