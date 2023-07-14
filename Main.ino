@@ -292,6 +292,8 @@ void setup() {
 }
 
 void loop() {
+   //server input, all that is to be stored(varibles need to be changed,and times need to be agreed opon(5min intervals of sending info or 1min...))
+   //String queryString = "?user_id=User1&temperature=" + String(temperature) + "&humidity=" + String(humidity) +"&weight=" + String(weight)+"&lastHumidityChange=" + String(lastHumidityChange)+"&lastTemperatureChange=" + String(lastTemperatureChange);
   RemoteXY_Handler();
 
 
