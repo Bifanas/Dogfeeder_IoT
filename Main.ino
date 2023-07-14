@@ -293,7 +293,7 @@ void setup() {
 
 void loop() {
    unsigned long currentMillis = millis();
-   //server input, all that is to be stored(varibles need to be changed,and times need to be agreed opon(5min intervals of sending info or 1min...))
+   //server input, all that is to be stored(varibles need to be changed,and times will be 1 min because quality is calculated on the server on these values)
    //String queryString = "?user_id=User1&temperature=" + String(temperature) + "&humidity=" + String(humidity) +"&weight=" + String(weight)+"&lastHumidityChange=" + String(lastHumidityChange)+"&lastTemperatureChange=" + String(lastTemperatureChange);
    
    //code that sends info above to server every "interval" milliseconds
