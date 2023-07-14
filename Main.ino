@@ -295,17 +295,38 @@ void loop() {
   sprintf(RemoteXY.Calendar, "%04d-%02d-%02d %02d:%02d:%02d",rtc.year(), rtc.month(), rtc.day(),rtc.hour(), rtc.minute(), rtc.second());
  //update real time to RemoteXY.hour RemoteXY.minute RemoteXY.second ---- day month year? 
 
+
+
+// Quality (temperature,humidity)  
+   
   dtostrf(temperature(), 0, 0, RemoteXY.Info_T);
   dtostrf(humidity(), 0, 0, RemoteXY.Info_H);
   
   RemoteXY.onlineGraph_1 = quality();
   RemoteXY.circularbar_1 = quality();
 
-if(RemoteXY.Treat){
+/*
+IMPLEMENT CALIBRATION
+/*
+
+   
+// Give a treat
+   if(RemoteXY.Treat){
    feed(100,200,0);
    }
 
-// Read the raw value from the load cell
+/*
+IMPLEMENT FEED----------------------
+ */
+
+/*
+IMPLEMENT STORAGE GAUGE----------------
+   float weight = scale.get_units();
+   RemoteXY.Storage = weight..........?????
+   MUST CONVERT FLOAT TO 0..100 level position 
+
+*/
+   // Read the raw value from the load cell
   long rawValue = scale.read();
 
   // Get the weight in units based on your calibration factor
