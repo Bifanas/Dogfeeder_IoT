@@ -248,17 +248,6 @@ void calculate_closest_meal(){
 
 }
 
-/*
-void meal_save(){
-  int saved[4][3] = {{0 0 0}, {0 0 0}, {0 0 0},{0 0 0}};
-
-  saved[Meals][0] = Portion; 
-  saved[Meals][1] = Hour;
-  saved[Meals][2] = Minute;
-}
-*/
-//=================== AUXILIAR
-
 
 void setup() {
   RemoteXY_Init();
