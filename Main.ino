@@ -75,7 +75,7 @@ uint8_t RemoteXY_CONF[] =   // 719 bytes
 struct {
 
     // input variables
-  uint8_t Trear; // =1 if button pressed, else =0 
+  uint8_t Treat; // =1 if button pressed, else =0 
   uint8_t Calibrate; // =1 if button pressed, else =0 
   int16_t Hour_A;  // 32767.. +32767 
   int16_t Hour_B;  // 32767.. +32767 
