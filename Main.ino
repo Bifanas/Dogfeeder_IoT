@@ -36,7 +36,7 @@ const char WIFI_PASSWORD[] =0//erodam password
 String HOST_NAME = "http://192.168.1.68"; // change to your PC's IP address
 String PATH_NAME   = "/insert_temp.php";
 //String queryString = "?user_id=User1&temperature=30.5&humidity=50.0&weight=70.0";
-// RemoteXY configurate  
+// RemoteXY configurat  
 #pragma pack(push, 1)
 uint8_t RemoteXY_CONF[] =   // 719 bytes
   { 255,26,0,53,1,200,2,16,31,5,130,3,2,17,59,47,2,30,130,1,
