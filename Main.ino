@@ -36,7 +36,7 @@ const char WIFI_PASSWORD[] =0//erodam password
 String HOST_NAME = "http://192.168.1.68"; // change to your PC's IP address
 String PATH_NAME   = "/insert_temp.php";
 //String queryString = "?user_id=User1&temperature=30.5&humidity=50.0&weight=70.0";
-// RemoteXY configurat  
+// RemoteXY configurate  
 #pragma pack(push, 1)
 uint8_t RemoteXY_CONF[] =   // 719 bytes
   { 255,26,0,53,1,200,2,16,31,5,130,3,2,17,59,47,2,30,130,1,
@@ -99,17 +99,17 @@ struct {
   int8_t Storage; // =0..100 level position 
   char Info[22];  // string UTF8 end zero 
   char Calendar[20];  // string UTF8 end zero 
-  char Record[31];  // string UTF8 end zero 
+  char Record1[31];  // string UTF8 end zero 
   char Info_H[22];  // string UTF8 end zero 
   char Info_T[22];  // string UTF8 end zero 
   int8_t circularbar_1;  // from 0 to 100 
   float onlineGraph_1;
-  char Record[31];  // string UTF8 end zero 
-  char Record[31];  // string UTF8 end zero 
-  char Record[31];  // string UTF8 end zero 
-  char Record[31];  // string UTF8 end zero 
-  char Record[31];  // string UTF8 end zero 
-  char Record[31];  // string UTF8 end zero 
+  char Record2[31];  // string UTF8 end zero 
+  char Record3[31];  // string UTF8 end zero 
+  char Record4[31];  // string UTF8 end zero 
+  char Record5[31];  // string UTF8 end zero 
+  char Record6[31];  // string UTF8 end zero 
+  char Record7[31];  // string UTF8 end zero 
 
     // other variable
   uint8_t connect_flag;  // =1 if wire connected, else =0 
