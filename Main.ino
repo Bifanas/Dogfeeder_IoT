@@ -175,6 +175,18 @@ void stepper(float Screw_turns, int motorpin, bool direction) {
   digitalWrite(enable_motor, HIGH);
 }
 
+int Calibration(){// Motor will spin 5 times and drop an X amount of food. Than we can find how much food per turn.
+  float weight = scale.get_units();
+  float aux = 0;
+  for (int i = 0; i <= 5; i = i + 1) {
+    stepper(1, step, 0);  //1 turn = 4000 steps = 103g
+    stepper(0.2, step, 1);       //spins backwards chug control
+  }
+  aux = scale.get_units();
+  aux = (weight - aux)/5 ;
+  return aux;
+}
+
 
 void feed( int cal,int amount, bool slow) {
   float turns;
@@ -290,7 +302,7 @@ void setup() {
 
   // TODO you setup code
 }
-
+float Cal = 0; // auxiliary declaration
 void loop() {
    unsigned long currentMillis = millis();
    //server input, all that is to be stored(varibles need to be changed,and times will be 1 min because quality is calculated on the server on these values)
@@ -383,9 +395,10 @@ if (currentMillis - previousGetProbMillis >= getProbInterval) {
   RemoteXY.onlineGraph_1 = quality();
   RemoteXY.circularbar_1 = quality();
 
-/*
-IMPLEMENT CALIBRATION
-/*
+//calibration process
+  if(RemoteXy.Calibrate){
+    cal = Calibration();
+  }
 
    
 // Give a treat
@@ -395,6 +408,10 @@ IMPLEMENT CALIBRATION
 
 /*
 IMPLEMENT FEED----------------------
+
+if(time_to_eat ==  real time){
+feed(cal,amount,0);
+}
  */
 
 /*
@@ -402,20 +419,23 @@ IMPLEMENT STORAGE GAUGE----------------
    float weight = scale.get_units();
    RemoteXY.Storage = weight..........?????
    MUST CONVERT FLOAT TO 0..100 level position 
-
+   max = 1.5kg for the prototype
 */
-   // Read the raw value from the load cell
-  long rawValue = scale.read();
 
-  // Get the weight in units based on your calibration factor
-  float weight = scale.get_units();
+float weight = scale.get_units();
+RemoteXY.Storage = weight/1500;
+   
+// Read the raw value from the load cell
+long rawValue = scale.read();
 
-  // Print the raw value and weight to the Serial Monitor
-  Serial.print("Raw Value: ");
-  Serial.print(rawValue);
-  Serial.print(", Weight: ");
-  Serial.print(weight);
-  Serial.println(" grams");
+// Get the weight in units based on your calibration factor
+float weight = scale.get_units();
+
+// Print the raw value and weight to the Serial Monitor
+  
+Serial.print("Weight: ");
+Serial.print(weight);
+Serial.println(" grams");
 
 
 }
