@@ -25,16 +25,20 @@
 #include <HTTPClient.h>
 #include <RemoteXY.h>
 #include <ArduinoJson.h>
+#include <string>
+#include <cstring>
+
+String HOST_NAME = "http://192.168.1.68"; // change to your PC's IP address
+String PATH_NAME   = "/insert_temp.php";
 // RemoteXY connection settings
 #define REMOTEXY_WIFI_SSID "DogFeederIoT"
 #define REMOTEXY_WIFI_PASSWORD "12345678"
 #define REMOTEXY_SERVER_PORT 6377
 //server configuration stuff(incomplete)
-const char WIFI_SSID[] =0//erodam
-const char WIFI_PASSWORD[] =0//erodam password
+const char WIFI_SSID[] ="";//erodam
+const char WIFI_PASSWORD[] ="";//erodam password
 
-String HOST_NAME = "http://192.168.1.68"; // change to your PC's IP address
-String PATH_NAME   = "/insert_temp.php";
+
 //String queryString = "?user_id=User1&temperature=30.5&humidity=50.0&weight=70.0";
 // RemoteXY configurate  
 #pragma pack(push, 1)
@@ -129,13 +133,22 @@ struct {
 #define DHTPIN 4       // Pin which is connected to the DHT sensor.
 #define DHTTYPE DHT11  // DHT 11
 DHT_Unified dht(DHTPIN, DHTTYPE);
-float myTemperature = 0, myHumidity = 0;
+float myTemperature = 0, myHumidity = 0, weight;
+unsigned long previousMillis = 0; // store the last time an HTTP request was made
+unsigned long interval = 60000; // interval at which to send HTTP requests (60 seconds)
+
+unsigned long previousGetProbMillis = 0; // store the last time 'fungus_growth_prob' was retrieved
+unsigned long getProbInterval = 30000; // interval at which to get 'fungus_growth_prob' (30 seconds)
 
 // Real Time Clock---------------------------------------------------------------------
+
 
 #include "Arduino.h"
 #include "uRTCLib.h"
 uRTCLib rtc(0x68);  // uRTCLib rtc;
+
+String lastTemperatureChange;
+String lastHumidityChange;
 
 
 // Scale/load cell 
@@ -208,19 +221,22 @@ int temperature() {
   if (isnan(event.temperature)) {
     Serial.println("Error reading temperature!");
   } else {
-    // Update temperature and humidity
     myTemperature = (float)event.temperature;
+    rtc.refresh();
+    lastTemperatureChange = String(rtc.hour()) + ":" + String(rtc.minute()) + ":" + String(rtc.second());
     return myTemperature;
   }
 }
 
-int humidity() {
+float humidity() {
   sensors_event_t event;
   dht.humidity().getEvent(&event);
   if (isnan(event.relative_humidity)) {
     Serial.println("Error reading humidity!");
   } else {
     myHumidity = (float)event.relative_humidity;
+    rtc.refresh();
+    lastHumidityChange = String(rtc.hour()) + ":" + String(rtc.minute()) + ":" + String(rtc.second());
     return myHumidity;
   }
 }
@@ -270,7 +286,11 @@ void setup() {
   RemoteXY_Init();
   Serial.begin(9600);
   //Serial.begin(115200);
-
+  if (rtc.year() == 165 || rtc.year() == 2023) {
+       Serial.println("Couldn't find RTC");
+       while (1);
+  }
+   RemoteXY_Init();
   // Initialize the HX711 module ------------------------------
   scale.begin(LOADCELL_DT_PIN, LOADCELL_SCK_PIN);
   
@@ -305,11 +325,11 @@ void setup() {
 float cal = 0; // auxiliary declaration
 void loop() {
    unsigned long currentMillis = millis();
-   //server input, all that is to be stored(varibles need to be changed,and times will be 1 min because quality is calculated on the server on these values)
-   //String queryString = "?user_id=User1&temperature=" + String(temperature) + "&humidity=" + String(humidity) +"&weight=" + String(weight)+"&lastHumidityChange=" + String(lastHumidityChange)+"&lastTemperatureChange=" + String(lastTemperatureChange);
+  //server input, all that is to be stored(varibles need to be changed,and times will be 1 min because quality is calculated on the server on these values)
+   String queryString = "?user_id=User1&temperature=" + String(myTemperature) + "&humidity=" + String(myHumidity) +"&weight=" + String(weight)+"&lastHumidityChange=" + String(lastHumidityChange)+"&lastTemperatureChange=" + String(lastTemperatureChange);
    
    //code that sends info above to server every "interval" milliseconds
-   /*if (currentMillis - previousMillis >= interval) {
+   if (currentMillis - previousMillis >= interval) {
     // save the last time the HTTP request was made
     previousMillis = currentMillis;
 
@@ -376,7 +396,7 @@ if (currentMillis - previousGetProbMillis >= getProbInterval) {
 
   http.end();
 }
-   */
+   
    RemoteXY_Handler();
 
 
