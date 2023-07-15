@@ -3,7 +3,6 @@
 - HISTORICO
 - FEED(RTC)
 - SERVER TIME(RTC)??
-- SHOW (NEXT MEAL)
 - BUGS DEBOUNCING BUTTOM
 - CALIBRATION TIMEOUT
 
@@ -375,6 +374,16 @@ void setup() {
   RemoteXY.Meal_size_C = 100;
   RemoteXY.Meal_size_D = 50;
 
+  sprintf(RemoteXY.Record1, "15/07 16:45 132g");  // NEEDS TO BE UPDATED
+  sprintf(RemoteXY.Record2, "15/07 12:30 73g");
+  sprintf(RemoteXY.Record3, "15/07 07:00 211g");
+  sprintf(RemoteXY.Record4, "14/07 20:00 243g");
+  sprintf(RemoteXY.Record5, "14/07 16:45 105g");
+  sprintf(RemoteXY.Record6, "14/07 12:30 60g");
+  sprintf(RemoteXY.Record7, "14/07 07:00 213g");
+
+  RemoteXY.Storage = 33;
+
   //--------------------------------------------------------------------------------------------------
   String auth = String(SERVER_USER) + ":" + String(SERVER_PASS);
   String encodedAuth = base64::encode(auth);
@@ -480,33 +489,36 @@ void loop() {
   //RemoteXY.onlineGraph_1 = quality();
   //RemoteXY.circularbar_1 = quality();
 
-  //calibration process
-  if (RemoteXY.Calibrate) {
+//calibration process
+  if (RemoteXY.Calibrate == 1) {
     cal = Calibration();
+  }
+  if (RemoteXY.Calibrate == 1){
     Serial.print("Calibrated: cal=");
     Serial.println(cal);
   }
 
 
-  // Give a treat
-  if (RemoteXY.Treat) {
+   // Give a treat
+  if (RemoteXY.Treat == 1) {
     stepper(1, step, 0);
     stepper(0.2, step, 1);
   }
+  if (RemoteXY.Treat == 1)Serial.println("Treat given!");
 
 
   // NEXT MEAL AT:
-  sprintf(RemoteXY.Info, "%02d:%02d", RemoteXY.Hour_C, RemoteXY.Minute_C);  // NEEDS TO BE UPDATED
-  
-  float weight = scale.get_units();
+  calculate_closest_meal();
+
+   //How much food left
+  weight = scale.get_units();
   RemoteXY.Storage = round(weight/15);
 
-  weight = scale.get_units();
-  RemoteXY.Storage = weight / 1500; //MUST CONVERT FLOAT TO 0..100 level position; max = 1.5kg for the prototype
+ //MUST CONVERT FLOAT TO 0..100 level position; max = 1.5kg for the prototype
   // Print the raw value and weight to the Serial Monitor
-  Serial.print("Weight: ");
-  Serial.print(weight);
-  Serial.println(" grams");
+ // Serial.print("Weight: ");
+ // Serial.print(weight);
+  //Serial.println(" grams");
 
 
 ///IMPLEMENT FEED----------------------
