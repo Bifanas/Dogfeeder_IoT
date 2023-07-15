@@ -396,7 +396,7 @@ if (currentMillis - previousGetProbMillis >= getProbInterval) {
   RemoteXY.circularbar_1 = quality();
 
 //calibration process
-  if(RemoteXy.Calibrate){
+  if(RemoteXY.Calibrate){
     cal = Calibration();
   }
 
