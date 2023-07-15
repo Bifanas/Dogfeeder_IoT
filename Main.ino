@@ -38,16 +38,20 @@
 #include <ArduinoJson.h>
 #include <string>
 #include <cstring>
+#include <Base64.h>
 
-String HOST_NAME = "http://192.168.1.68";  // change to your PC's IP address
+String HOST_NAME = "http://10.101.211.143";  // change to your PC's IP address
 String PATH_NAME = "/insert_temp.php";
 // RemoteXY connection settings
 #define REMOTEXY_WIFI_SSID "DogFeederIoT"
 #define REMOTEXY_WIFI_PASSWORD "12345678"
 #define REMOTEXY_SERVER_PORT 6377
 //server configuration stuff(incomplete)
-const char WIFI_SSID[] = "Fabian";            //erodam
-const char WIFI_PASSWORD[] = "easypassword";  //erodam password
+const char WIFI_SSID[] = "eduroam"; //"Fabian";            //erodam
+//const char WIFI_PASSWORD[] = "Iluminati97";// "easypassword";  //erodam password
+const char SERVER_USER[] = "@student.uc.pt";
+const char SERVER_PASS[] = "";
+
 
 
 //String queryString = "?user_id=User1&temperature=30.5&humidity=50.0&weight=70.0";
@@ -150,10 +154,10 @@ DHT_Unified dht(DHTPIN, DHTTYPE);
 
 float myTemperature = 0, myHumidity = 0;
 unsigned long previousMillis = 0;  // store the last time an HTTP request was made
-unsigned long interval = 60000;    // interval at which to send HTTP requests (60 seconds)
+unsigned long interval = 15000;    // interval at which to send HTTP requests (60 seconds)
 
 unsigned long previousGetProbMillis = 0;  // store the last time 'fungus_growth_prob' was retrieved
-unsigned long getProbInterval = 30000;    // interval at which to get 'fungus_growth_prob' (30 seconds)
+unsigned long getProbInterval = 25000;    // interval at which to get 'fungus_growth_prob' (30 seconds)
 
 // Real Time Clock---------------------------------------------------------------------
 
@@ -367,6 +371,10 @@ void setup() {
   RemoteXY.Meal_size_C = 100;
   RemoteXY.Meal_size_D = 50;
 
+  //--------------------------------------------------------------------------------------------------
+  String auth = String(SERVER_USER) + ":" + String(SERVER_PASS);
+  String encodedAuth = base64::encode(auth);
+
 }
 
 
@@ -438,6 +446,9 @@ void loop() {
           float fungus_growth_prob = doc["fungus_growth_prob"];
 
           Serial.println(fungus_growth_prob);
+          RemoteXY.onlineGraph_1 = fungus_growth_prob;
+          RemoteXY.circularbar_1 = fungus_growth_prob;
+            
         }
       } else {
         Serial.printf("[HTTP] GET... code: %d\n", httpCode);
@@ -462,8 +473,8 @@ void loop() {
   dtostrf(temperature(), 0, 0, RemoteXY.Info_T);
   dtostrf(humidity(), 0, 0, RemoteXY.Info_H);
 
-  RemoteXY.onlineGraph_1 = quality();
-  RemoteXY.circularbar_1 = quality();
+  //RemoteXY.onlineGraph_1 = quality();
+  //RemoteXY.circularbar_1 = quality();
 
   //calibration process
   if (RemoteXY.Calibrate) {
