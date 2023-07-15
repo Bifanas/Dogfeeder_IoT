@@ -302,7 +302,7 @@ void setup() {
 
   // TODO you setup code
 }
-float Cal = 0; // auxiliary declaration
+float cal = 0; // auxiliary declaration
 void loop() {
    unsigned long currentMillis = millis();
    //server input, all that is to be stored(varibles need to be changed,and times will be 1 min because quality is calculated on the server on these values)
