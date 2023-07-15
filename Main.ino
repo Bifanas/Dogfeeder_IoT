@@ -274,10 +274,10 @@ void calculate_closest_meal(){
     closestMinute = RemoteXY.Minute_D;    
   }
   //coppy transform int to string
-    std::string strHour = std::to_string(closestHour);
-    std::string strMinute = std::to_string(closestMinute);
-    std::string result = strHour + ":" + strMinute;
-    std::strcpy(Info, result.c_str());
+    String strHour = String(closestHour);
+    String strMinute = String(closestMinute);
+    String result = strHour + ":" + strMinute;
+    strcpy(RemoteXY.Info, result.c_str());
 
 }
 
