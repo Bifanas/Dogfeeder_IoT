@@ -188,7 +188,7 @@ void stepper(float Screw_turns, int motorpin, bool direction) {
   digitalWrite(enable_motor, HIGH);
 }
 
-int Calibration(){// Motor will spin 5 times and drop an X amount of food. Than we can find how much food per turn.
+int Calibration(){// Motor will spin 5 times and drop an X amount of food. Then we can find how much food per turn.
   float weight = scale.get_units();
   float aux = 0;
   for (int i = 0; i <= 5; i = i + 1) {
@@ -248,6 +248,8 @@ int quality() {
   if (temperature() > 30 && humidity() > 60) aux = 35;
   return aux;
 }
+
+
 void calculate_closest_meal(){
   int diff0 = abs((RemoteXY.Hour_A - rtc.hour()) * 60 + (RemoteXY.Minute_A - rtc.minute()));
   int diff1 = abs((RemoteXY.Hour_B - rtc.hour()) * 60 + (RemoteXY.Minute_B - rtc.minute()));
