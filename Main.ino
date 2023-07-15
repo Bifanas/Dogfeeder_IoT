@@ -522,11 +522,19 @@ void loop() {
 
 
 ///IMPLEMENT FEED----------------------
-/*
-if(time_to_eat ==  real time){
-feed(cal,amount,0);
+
+if(RemoteXY.Hour_A == rtc.hour() && RemoteXY.Minute_A == rtc.minute()){
+  feed(cal,RemoteXY.Meal_size_A,0);
 }
-*/
+if(RemoteXY.Hour_B == rtc.hour() && RemoteXY.Minute_B == rtc.minute()){
+  feed(cal,RemoteXY.Meal_size_B,0);
+}
+if(RemoteXY.Hour_C == rtc.hour() && RemoteXY.Minute_C == rtc.minute()){
+  feed(cal,RemoteXY.Meal_size_C,0);
+}
+if(RemoteXY.Hour_D == rtc.hour() && RemoteXY.Minute_D == rtc.minute()){
+  feed(cal,RemoteXY.Meal_size_D,0);
+}
 //----------------------------------
 
 }
