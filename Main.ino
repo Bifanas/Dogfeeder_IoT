@@ -424,15 +424,7 @@ IMPLEMENT STORAGE GAUGE----------------
 
 float weight = scale.get_units();
 RemoteXY.Storage = weight/1500;
-   
-// Read the raw value from the load cell
-long rawValue = scale.read();
-
-// Get the weight in units based on your calibration factor
-float weight = scale.get_units();
-
 // Print the raw value and weight to the Serial Monitor
-  
 Serial.print("Weight: ");
 Serial.print(weight);
 Serial.println(" grams");
