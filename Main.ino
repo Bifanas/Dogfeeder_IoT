@@ -286,10 +286,7 @@ void setup() {
   RemoteXY_Init();
   Serial.begin(9600);
   //Serial.begin(115200);
-  if (rtc.year() == 165 || rtc.year() == 2023) {
-       Serial.println("Couldn't find RTC");
-       while (1);
-  }
+
    RemoteXY_Init();
   // Initialize the HX711 module ------------------------------
   scale.begin(LOADCELL_DT_PIN, LOADCELL_SCK_PIN);
@@ -318,7 +315,20 @@ void setup() {
   pinMode(step, OUTPUT);
   pinMode(dirPin, OUTPUT);
 
+   //INITIALIZATION
 
+RemoteXY.Hour_A = 7;       
+RemoteXY.Hour_B = 12;      
+RemoteXY.Hour_C = 16;      
+RemoteXY.Hour_D = 20;      
+RemoteXY.Minute_A = 0;     
+RemoteXY.Minute_B = 30;    
+RemoteXY.Minute_C = 45;    
+RemoteXY.Minute_D = 0;     
+RemoteXY.Meal_size_A = 200;
+RemoteXY.Meal_size_B = 50; 
+RemoteXY.Meal_size_C = 100;
+RemoteXY.Meal_size_D = 50; 
 
   // TODO you setup code
 }
@@ -397,12 +407,10 @@ if (currentMillis - previousGetProbMillis >= getProbInterval) {
   http.end();
 }
    
-   RemoteXY_Handler();
-
-
+ RemoteXY_Handler();
    
-  rtc.refresh();
-  sprintf(RemoteXY.Calendar, "%04d-%02d-%02d %02d:%02d:%02d",rtc.year(), rtc.month(), rtc.day(),rtc.hour(), rtc.minute(), rtc.second());
+ rtc.refresh();
+ sprintf(RemoteXY.Calendar, "%02d/%02d/%02d   %02d:%02d:%02d", rtc.day(), rtc.month(),rtc.year() , rtc.hour(), rtc.minute(),rtc.second());
  //update real time to RemoteXY.hour RemoteXY.minute RemoteXY.second ---- day month year? 
 
 
@@ -416,17 +424,31 @@ if (currentMillis - previousGetProbMillis >= getProbInterval) {
   RemoteXY.circularbar_1 = quality();
 
 //calibration process
-  if(RemoteXY.Calibrate){
+ if(RemoteXY.Calibrate){
     cal = Calibration();
+    Serial.print("Calibrated: cal=");
+    Serial.println(cal);
   }
 
    
 // Give a treat
-   if(RemoteXY.Treat){
-   feed(100,200,0);
+if(RemoteXY.Treat){
+   stepper(1, step, 0);
+   stepper(0.2,step,1);
    }
 
+
+// NEXT MEAL AT: 
+sprintf(RemoteXY.Info, "%02d:%02d", RemoteXY.Hour_C, RemoteXY.Minute_C);  // NEEDS TO BE UPDATED
 /*
+
+  float weight = scale.get_units();
+  RemoteXY.Storage = round(weight/15);
+
+
+
+
+
 IMPLEMENT FEED----------------------
 
 if(time_to_eat ==  real time){
