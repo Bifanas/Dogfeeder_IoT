@@ -8,7 +8,7 @@
 
 */
 
-/* 
+/*
    -- DF --
    
    This source code of graphical user interface 
@@ -29,38 +29,24 @@
 //        RemoteXY include library          //
 //////////////////////////////////////////////
 
-// RemoteXY select connection mode and include library
+// RemoteXY select connection mode and include library 
 #define REMOTEXY_MODE__ESP32CORE_WIFI_CLOUD
 #include <WiFi.h>
-#include <HTTPClient.h>
+
 #include <RemoteXY.h>
-#include <ArduinoJson.h>
-#include <string>
-#include <cstring>
-#include <Base64.h>
 
-String HOST_NAME = "http://192.168.1.85";  // change to your PC's IP address
-String PATH_NAME = "/insert_temp.php";
 // RemoteXY connection settings 
-#define REMOTEXY_WIFI_SSID "MEO-6134D0"
-#define REMOTEXY_WIFI_PASSWORD "18e52271ba"
-#define REMOTEXY_CLOUD_SERVER "cloud.remotexy.com"
+#define REMOTEXY_WIFI_SSID "Fabian"
+#define REMOTEXY_WIFI_PASSWORD "easypassword"
+#define REMOTEXY_CLOUD_SERVER ""
 #define REMOTEXY_CLOUD_PORT 6376
-#define REMOTEXY_CLOUD_TOKEN "55e50841f56d4970c726b07309336673"
-
-//server configuration stuff(incomplete)
-const char WIFI_SSID[] = "eduroam"; //"Fabian";            //erodam
-const char WIFI_PASSWORD[] = // "easypassword";  //erodam password
-//const char SERVER_USER[] = "@student.uc.pt";
-//const char SERVER_PASS[] = "";
+#define REMOTEXY_CLOUD_TOKEN ""
 
 
-
-//String queryString = "?user_id=User1&temperature=30.5&humidity=50.0&weight=70.0";
-// RemoteXY configurate
+// RemoteXY configurate  
 #pragma pack(push, 1)
-uint8_t RemoteXY_CONF[] =  // 719 bytes
-    { 255,26,0,53,1,224,2,16,31,5,130,3,2,13,58,73,3,30,130,3,
+uint8_t RemoteXY_CONF[] =   // 743 bytes
+  { 255,26,0,53,1,224,2,16,31,5,130,3,2,13,58,73,3,30,130,3,
   2,17,59,47,2,30,130,1,0,91,64,11,0,30,66,128,8,60,49,8,
   1,29,31,1,5,21,20,23,9,1,29,31,84,114,101,97,116,0,131,3,
   4,93,12,4,1,28,31,77,97,105,110,0,131,2,33,93,12,4,2,28,
@@ -98,46 +84,48 @@ uint8_t RemoteXY_CONF[] =  // 719 bytes
   37,2,5,2,27,58,0,129,0,19,46,2,5,2,27,58,0,129,0,19,
   55,2,5,2,27,58,0,130,3,22,14,1,72,3,30,130,3,40,14,1,
   72,3,30 };
-//This structure defines all the variables and events of your control interface
+  
+// this structure defines all the variables and events of your control interface 
 struct {
 
-  // input variables
-  uint8_t Treat;        // =1 if button pressed, else =0
-  uint8_t Calibrate;    // =1 if button pressed, else =0
-  int16_t Hour_A;       // 32767.. +32767
-  int16_t Hour_B;       // 32767.. +32767
-  int16_t Hour_C;       // 32767.. +32767
-  int16_t Hour_D;       // 32767.. +32767
-  int16_t Minute_A;     // 32767.. +32767
-  int16_t Minute_B;     // 32767.. +32767
-  int16_t Minute_C;     // 32767.. +32767
-  int16_t Minute_D;     // 32767.. +32767
-  int16_t Meal_size_A;  // 32767.. +32767
-  int16_t Meal_size_B;  // 32767.. +32767
-  int16_t Meal_size_C;  // 32767.. +32767
-  int16_t Meal_size_D;  // 32767.. +32767
+    // input variables
+  uint8_t Treat; // =1 if button pressed, else =0 
+  uint8_t Calibrate; // =1 if button pressed, else =0 
+  int16_t Hour_A;  // 32767.. +32767 
+  int16_t Hour_B;  // 32767.. +32767 
+  int16_t Hour_C;  // 32767.. +32767 
+  int16_t Hour_D;  // 32767.. +32767 
+  int16_t Minute_A;  // 32767.. +32767 
+  int16_t Minute_B;  // 32767.. +32767 
+  int16_t Minute_C;  // 32767.. +32767 
+  int16_t Minute_D;  // 32767.. +32767 
+  int16_t Meal_size_A;  // 32767.. +32767 
+  int16_t Meal_size_B;  // 32767.. +32767 
+  int16_t Meal_size_C;  // 32767.. +32767 
+  int16_t Meal_size_D;  // 32767.. +32767 
 
-  // output variables
-  int8_t Storage;        // =0..100 level position
-  char Info[22];         // string UTF8 end zero
-  char Calendar[20];     // string UTF8 end zero
-  char Record1[31];      // string UTF8 end zero
-  char Info_H[22];       // string UTF8 end zero
-  char Info_T[22];       // string UTF8 end zero
-  int8_t circularbar_1;  // from 0 to 100
+    // output variables
+  int8_t Storage; // =0..100 level position 
+  char Info[22];  // string UTF8 end zero 
+  char Calendar[20];  // string UTF8 end zero 
+  char Record1[31];  // string UTF8 end zero 
+  char Info_H[22];  // string UTF8 end zero 
+  char Info_T[22];  // string UTF8 end zero 
+  int8_t circularbar_1;  // from 0 to 100 
   float onlineGraph_1;
-  char Record2[31];  // string UTF8 end zero
-  char Record3[31];  // string UTF8 end zero
-  char Record4[31];  // string UTF8 end zero
-  char Record5[31];  // string UTF8 end zero
-  char Record6[31];  // string UTF8 end zero
-  char Record7[31];  // string UTF8 end zero
+  char Record2[31];  // string UTF8 end zero 
+  char Record3[31];  // string UTF8 end zero 
+  char Record4[31];  // string UTF8 end zero 
+  char Record5[31];  // string UTF8 end zero 
+  char Record6[31];  // string UTF8 end zero 
+  char Record7[31];  // string UTF8 end zero 
 
-  // other variable
-  uint8_t connect_flag;  // =1 if wire connected, else =0
+    // other variable
+  uint8_t connect_flag;  // =1 if wire connected, else =0 
 
 } RemoteXY;
 #pragma pack(pop)
+
 //////////////////////////////////////////////////////////////////
 //                  END RemoteXY include                        //
 //////////////////////////////////////////////////////////////////
