@@ -1,3 +1,7 @@
+
+
+//this code must be used with the app xampp and located on the folder htdocs with the name insert_temp.php
+
 <?php
 
 if(isset($_GET["user_id"]) && isset($_GET["temperature"]) && isset($_GET["humidity"]) && isset($_GET["weight"]) && isset($_GET["lastHumidityChange"]) && isset($_GET["lastTemperatureChange"]) ){
@@ -18,12 +22,13 @@ if(isset($_GET["user_id"]) && isset($_GET["temperature"]) && isset($_GET["humidi
 	
 	function fungus_growth_probability($temp, $humidity) {
 	  if ($temp < 20.0 || $humidity < 50.0) {
-		return 0.0;
+		return 1;
 	  }
 	  else {
 		$temp_factor = min(($temp - 20.0) / 10.0, 1.0);
 		$humidity_factor = min(($humidity - 50.0) / 50.0, 1.0);
-		return $temp_factor * $humidity_factor;
+
+		return 1-($temp_factor * $humidity_factor);
 	  }
 	}
 	$fungus_growth_prob = fungus_growth_probability($temperature, $humidity);
@@ -40,7 +45,14 @@ if(isset($_GET["user_id"]) && isset($_GET["temperature"]) && isset($_GET["humidi
     $sql = "INSERT INTO tbl_sensor_data (user_id, temperature, humidity, weight, lastHumidityChange, lastTemperatureChange, fungus_growth_prob) VALUES ('$user_id', $temperature, $humidity, $weight, $lastHumidityChange, $lastTemperatureChange, $fungus_growth_prob)";
 
     if ($connection->query($sql) === TRUE) {
-        echo "New record created successfully";
+        // Create a PHP array with the fungus_growth_prob value
+        $responseArray = array("fungus_growth_prob" => $fungus_growth_prob);
+
+        // Convert the PHP array to a JSON string
+        $jsonResponse = json_encode($responseArray);
+
+        // Send the JSON response
+        echo $jsonResponse;
     } else {
         echo "Error: " . $sql . " => " . $connection->error;
     }
@@ -50,3 +62,5 @@ if(isset($_GET["user_id"]) && isset($_GET["temperature"]) && isset($_GET["humidi
     echo "user_id, temperature, humidity, weight, lastHumidityChange, or lastTemperatureChange is not set in the HTTP request";
 }
 ?>
+
+
