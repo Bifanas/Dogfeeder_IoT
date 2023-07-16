@@ -38,8 +38,8 @@
 String HOST_NAME = "http://192.168.1.85";  // change to your PC's IP address
 String PATH_NAME = "/insert_temp.php";
 // RemoteXY connection settings 
-#define REMOTEXY_WIFI_SSID "Fabian"
-#define REMOTEXY_WIFI_PASSWORD "easypassword"
+#define REMOTEXY_WIFI_SSID "DogFeederIoT"
+#define REMOTEXY_WIFI_PASSWORD "12345678"
 #define REMOTEXY_CLOUD_SERVER "cloud.remotexy.com"
 #define REMOTEXY_CLOUD_PORT 6376
 #define REMOTEXY_CLOUD_TOKEN "55e50841f56d4970c726b07309336673"
