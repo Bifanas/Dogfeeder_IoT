@@ -380,8 +380,7 @@ void setup() {
   RemoteXY.Storage = 33;
 
   //--------------------------------------------------------------------------------------------------
-  String auth = String(SERVER_USER) + ":" + String(SERVER_PASS);
-  String encodedAuth = base64::encode(auth);
+
 
 }
 
