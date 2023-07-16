@@ -1,0 +1,42 @@
+
+
+
+
+
+//to be used in cmd, admin privilages. can be made in python but myne did not work:( 
+cd C:\xampp\mysql\bin
+
+mysqladmin -u root password YOUR_ROOT_PASSWORD
+
+mysql.exe -u root -p
+// mysql -u root -pYOUR_ROOT_PASSWORD
+
+CREATE USER 'ESP32'@'localhost' IDENTIFIED BY 'esp32io.com';
+
+GRANT ALL PRIVILEGES ON *.* TO 'ESP32'@'localhost' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+
+CREATE DATABASE db_esp32 CHARACTER SET = 'utf8' COLLATE = 'utf8_general_ci';
+
+USE db_esp32;
+
+
+
+
+CREATE TABLE IF NOT EXISTS tbl_sensor_data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(255) NOT NULL,
+    temperature FLOAT,
+    humidity FLOAT,
+    weight FLOAT,
+    lastHumidityChange FLOAT,
+    lastTemperatureChange FLOAT,
+    fungus_growth_prob FLOAT,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP   
+);
+
+INSERT INTO tbl_sensor_data (user_id, temperature, humidity, weight, lastHumidityChange, lastTemperatureChange, fungus_growth_prob) 
+VALUES ('User1', 20.0, 30.0, 40.0, 50.0, 60.0,70.0);
+
+SELECT * from tbl_sensor_data;
