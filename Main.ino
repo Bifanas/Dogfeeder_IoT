@@ -385,6 +385,7 @@ void setup() {
 
 }
 
+#define ISPRESSED LOW
 
 //////////////////////////////////////////////////////////////////
 //                          VOID LOOP                           //
@@ -492,7 +493,22 @@ void loop() {
     Serial.print("Calibrated: cal=");
     Serial.println(cal);
   }
+  static byte currentButtonStatus = !ISPRESSED;
+  byte buttonStatus = RemoteXY.Treat;
 
+   if (buttonStatus != currentButtonStatus)
+  {
+    currentButtonStatus = buttonStatus;
+
+    if (currentButtonStatus == ISPRESSED)
+    {
+      // change the led status when the button becomes pressed
+      Serial.println("Treat given!");
+    }
+
+    // simple debounce using delay
+    delay(50);
+  }
 
    // Give a treat
   if (RemoteXY.Treat == 1) {
