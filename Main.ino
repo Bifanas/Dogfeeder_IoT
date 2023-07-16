@@ -35,13 +35,20 @@
 
 #include <RemoteXY.h>
 
+String HOST_NAME = "http://192.168.1.85";  // change to your PC's IP address
+String PATH_NAME = "/insert_temp.php";
 // RemoteXY connection settings 
 #define REMOTEXY_WIFI_SSID "Fabian"
 #define REMOTEXY_WIFI_PASSWORD "easypassword"
-#define REMOTEXY_CLOUD_SERVER ""
+#define REMOTEXY_CLOUD_SERVER "cloud.remotexy.com"
 #define REMOTEXY_CLOUD_PORT 6376
-#define REMOTEXY_CLOUD_TOKEN ""
+#define REMOTEXY_CLOUD_TOKEN "55e50841f56d4970c726b07309336673"
 
+//server configuration stuff(incomplete)
+const char WIFI_SSID[] = "Fabian"; //"Fabian";            //erodam
+const char WIFI_PASSWORD[] ="easypassword"; // "easypassword";  //erodam password
+//const char SERVER_USER[] = "@student.uc.pt";
+//const char SERVER_PASS[] = "";
 
 // RemoteXY configurate  
 #pragma pack(push, 1)
