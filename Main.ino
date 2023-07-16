@@ -32,8 +32,12 @@
 // RemoteXY select connection mode and include library 
 #define REMOTEXY_MODE__ESP32CORE_WIFI_CLOUD
 #include <WiFi.h>
-
+#include <HTTPClient.h>
 #include <RemoteXY.h>
+#include <ArduinoJson.h>
+#include <string>
+#include <cstring>
+#include <Base64.h>
 
 String HOST_NAME = "http://192.168.1.85";  // change to your PC's IP address
 String PATH_NAME = "/insert_temp.php";
